@@ -1,0 +1,33 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: gke-dashboard-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Direct GCP authentication library to the mounted ADC credentials
+      - GOOGLE_APPLICATION_CREDENTIALS=/root/.config/gcloud/application_default_credentials.json
+    volumes:
+      # Mount the local config.yaml file for dynamic project listing updates
+      - ./backend/config.yaml:/app/config.yaml:ro
+      # Mount the host gcloud configuration directory to access Application Default Credentials (ADC)
+      - ~/.config/gcloud:/root/.config/gcloud:ro
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: gke-dashboard-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      # Configure Vite proxy destination to point to the backend container
+      - VITE_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    volumes:
+      # Mount frontend source files to support Hot Module Replacement (HMR) / instant reload on edit
+      - ./frontend/src:/app/src:ro
+      - ./frontend/index.html:/app/index.html:ro

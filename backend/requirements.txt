@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+google-cloud-container
+google-cloud-resource-manager
+google-cloud-billing
+kubernetes
+pyyaml
+pydantic

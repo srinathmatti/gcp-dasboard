@@ -1,0 +1,4 @@
+projects:
+  # Add your GCP project IDs here
+  - your-gcp-project-id-1
+  - your-gcp-project-id-2
