@@ -45,7 +45,7 @@ class GCPClient:
                                 "min_node_count": np.autoscaling.min_node_count,
                                 "max_node_count": np.autoscaling.max_node_count
                             } if np.autoscaling else None,
-                            "locations": np.locations,
+                            "locations": list(np.locations),
                             "version": np.version,
                             "max_pods_per_node": np.max_pods_constraint.max_pods_per_node if np.max_pods_constraint else "Default"
                         } for np in cluster.node_pools
